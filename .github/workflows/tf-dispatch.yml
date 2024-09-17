@@ -36,14 +36,6 @@ on:
         default: false
         type: boolean
 
-secrets:
-  org_repos_internal_read_only:
-    required: false
-  aws_oidc_assume_role:
-    required: false
-  tf_env_vars:
-    required: false
-
 permissions:
   contents: read
   id-token: write  # Ensure correct permission if modifying repo content or using tokens
