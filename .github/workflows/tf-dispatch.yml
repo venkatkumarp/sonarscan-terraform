@@ -45,24 +45,6 @@ jobs:
         with:
           fetch-depth: 0
 
-  sonar_analysis:
-    name: SonarQube Quality Scanner
-    if: ${{ github.event.inputs.environment == 'dev' }}
-    runs-on: ubuntu-latest
-    needs: checkout_code
-    steps:
-      - name: Run SonarQube Scan for Terraform
-        uses: sonarsource/sonarqube-scan-action@v2.1.0
-        env:
-          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        with:
-          args: >
-            -Dsonar.organization=terraform-scan
-            -Dsonar.projectKey=terraform-sonar
-            -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
-
   call_terraform_pipeline:
     name: Terraform Pipeline
     uses: venkatkumarp/tf-wrokflow-call/.github/workflows/tf-workflow.yml@main
