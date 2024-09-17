@@ -8,28 +8,23 @@ on:
         required: true
         default: "dev"
         type: string
-
       working_dir:
         description: "Working directory for Terraform"
         required: true
         type: string
-
       backend_config_path:
         description: "Path to the backend config file"
         required: true
         type: string
-
       backend_key:
         description: "Key for the backend configuration"
         required: true
         type: string
-
       plan_only:
         description: "Run Terraform plan only"
         required: false
         default: true
         type: boolean
-
       destroy:
         description: "Destroy the infrastructure"
         required: false
@@ -38,10 +33,9 @@ on:
 
 permissions:
   contents: read
-  id-token: write  # Ensure correct permission if modifying repo content or using tokens
+  id-token: write
 
 jobs:
-  # 1. Checkout with full depth to access the repository history
   checkout_code:
     name: Checkout Code
     runs-on: ubuntu-latest
@@ -49,25 +43,26 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Full history for the repo
+          fetch-depth: 0
 
-  # 2. SonarQube Analysis for Development Environment Only
   sonar_analysis:
     name: SonarQube Quality Scanner
-    if: ${{ github.event.inputs.environment == 'dev' }}  # Only run for dev environment
+    if: ${{ github.event.inputs.environment == 'dev' }}
     runs-on: ubuntu-latest
     needs: checkout_code
     steps:
       - name: Run SonarQube Scan for Terraform
+        uses: sonarsource/sonarqube-scan-action@v1
         env:
-          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}  # Ensure secret exists in the repository
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Ensure Sonar token is available
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          args: >  # Custom SonarQube arguments for Terraform scanning
+          projectKey: Sonar_Project_Key
+          organization: ORG_NAME
+          extraArgs: >
             -Dsonar.organization=ORG_NAME
             -Dsonar.projectKey=Sonar_Project_Key
 
-  # 3. Terraform Pipeline Call
   call_terraform_pipeline:
     name: Terraform Pipeline
     uses: venkatkumarp/tf-wrokflow-call/.github/workflows/tf-workflow.yml@main
@@ -83,7 +78,6 @@ jobs:
       aws_oidc_assume_role: ${{ secrets.aws_oidc_assume_role }}
       tf_env_vars: ${{ secrets.tf_env_vars }}
 
-  # 4. Generate Deployment Report after Terraform Call
   generate_deployment_report:
     name: Generate Deployment Report
     runs-on: ubuntu-latest
