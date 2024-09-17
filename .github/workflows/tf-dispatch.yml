@@ -59,7 +59,7 @@ jobs:
     needs: checkout_code
     steps:
       - name: Run SonarQube Scan for Terraform
-        uses: bayer-int/ph-rd-time-tracking-workflows/.github/workflows/sonarqube-quality-scanner.yml@main
+        uses: venkatkumarp/tf-wrokflow-call/.github/workflows/tf-workflow.yml@main
         env:
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}  # Ensure secret exists in the repository
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Ensure Sonar token is available
@@ -71,8 +71,7 @@ jobs:
   # 3. Terraform Pipeline Call
   call_terraform_pipeline:
     name: Terraform Pipeline
-    runs-on: ubuntu-latest
-    uses: bayer-int/ph-rd-time-tracking-workflows/.github/workflows/terraform-deploy.yml@main
+    uses: venkatkumarp/tf-wrokflow-call/.github/workflows/tf-workflow.yml@main
     with:
       environment: ${{ github.event.inputs.environment }}
       working_dir: ${{ github.event.inputs.working_dir }}
