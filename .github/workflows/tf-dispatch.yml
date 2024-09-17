@@ -57,11 +57,11 @@ jobs:
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
-          projectKey: Sonar_Project_Key
-          organization: ORG_NAME
+          projectKey: terraform-sonar
+          organization: terraform-scan
           extraArgs: >
-            -Dsonar.organization=ORG_NAME
-            -Dsonar.projectKey=Sonar_Project_Key
+            -Dsonar.organization=terraform-scan
+            -Dsonar.projectKey=terraform-sonar
 
   call_terraform_pipeline:
     name: Terraform Pipeline
