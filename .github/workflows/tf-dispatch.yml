@@ -22,7 +22,7 @@ on:
         type: string
       plan_only:
         description: "Run Terraform plan only"
-        required: false
+        required: true
         default: true
         type: boolean
       destroy:
