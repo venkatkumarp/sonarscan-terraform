@@ -59,7 +59,6 @@ jobs:
     needs: checkout_code
     steps:
       - name: Run SonarQube Scan for Terraform
-        uses: venkatkumarp/tf-wrokflow-call/.github/workflows/tf-workflow.yml@main
         env:
           GIT_TOKEN: ${{ secrets.GIT_TOKEN }}  # Ensure secret exists in the repository
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}  # Ensure Sonar token is available
