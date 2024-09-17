@@ -25,11 +25,6 @@ on:
         required: true
         default: true
         type: boolean
-      destroy:
-        description: "Destroy the infrastructure"
-        required: false
-        default: false
-        type: boolean
 
 permissions:
   contents: read
@@ -54,7 +49,6 @@ jobs:
       backend_config_path: ${{ github.event.inputs.backend_config_path }}
       backend_key: ${{ github.event.inputs.backend_key }}
       plan_only: ${{ github.event.inputs.plan_only }}
-      destroy: ${{ github.event.inputs.destroy }}
     secrets:
       org_repos_internal_read_only: ${{ secrets.org_repos_internal_read_only }}
       aws_oidc_assume_role: ${{ secrets.aws_oidc_assume_role }}
